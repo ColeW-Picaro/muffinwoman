@@ -1,6 +1,11 @@
+# Filename: meta.py
+# Author: Cole Vohs
+# Description: Music related commands for the bot
+
 import discord
 from discord.ext import commands
 from discord.ext.commands import Cog, command
+from video import Video
 
 class Music (Cog):
   def __init__(self, bot):
@@ -27,4 +32,18 @@ class Music (Cog):
       return True
     else:
       return False
+
+  # Play a song at url
+  @command()
+  async def play (self, ctx, url):
+    if self.voice_channel == None:
+      await self.join (ctx)
+    else:
+      return
+    author = ctx.message.author    
+    video = Video(url, author)
+    botvoice = ctx.voice_client
+    source = discord.FFmpegPCMAudio(video.stream_url)
+    botvoice.play (source)
+
 

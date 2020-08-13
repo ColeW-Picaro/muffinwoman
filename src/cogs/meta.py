@@ -1,3 +1,7 @@
+# Filename: meta.py
+# Author: Cole Vohs
+# Description: Meta commands for the bot
+
 import discord
 from discord.ext import commands
 from discord.ext.commands import Cog, command
