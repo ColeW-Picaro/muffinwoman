@@ -10,7 +10,12 @@ YTDL_OPTS = {
     "default_search": "ytsearch",
     "format": "bestaudio/best",
     "quiet": True,
-    "extract_flat": "in_playlist"
+    "extract_flat": "in_playlist",
+    'postprocessors': [{
+      'key': 'FFmpegExtractAudio',
+      'preferredcodec': 'mp3',
+      'preferredquality': '192',
+    }]
 }
 
 class Video:

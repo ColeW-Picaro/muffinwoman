@@ -11,7 +11,9 @@ class Music (Cog):
   def __init__(self, bot):
     self.voice_channel = None
     self.bot = bot
-
+    self.playlist = []
+    self.now_playing = False
+    
   async def in_voice_channel(self):
     if self.voice_channel == None:
       return False
@@ -33,17 +35,34 @@ class Music (Cog):
     else:
       return False
 
+  def play_song(self, botvoice, song):    
+    source = discord.FFmpegPCMAudio(song.stream_url)
+    
+    def after_playing(err):
+      if len(self.playlist) > 0:
+        next_song = self.playlist.pop(0)        
+        self.play_song(botvoice, next_song)
+      else:
+        self.now_playing = False
+        return
+      
+    self.now_playing = True
+    botvoice.play(source, after=after_playing)    
+
   # Play a song at url
   @command()
   async def play (self, ctx, url):
     if self.voice_channel == None:
       await self.join (ctx)
-    else:
-      return
+    
     author = ctx.message.author    
     video = Video(url, author)
-    botvoice = ctx.voice_client
-    source = discord.FFmpegPCMAudio(video.stream_url)
-    botvoice.play (source)
-
-
+    botvoice = ctx.voice_client    
+    self.playlist.append(video) 
+    if self.now_playing:
+      await ctx.send("added to queue")
+      return
+    else:      
+      await ctx.send("now playing")
+      self.play_song(botvoice, self.playlist.pop(0))
+      
