@@ -14,18 +14,21 @@ class Music (Cog):
     self.playlist = []
     self.now_playing = False
     
+  # Helper function to check if bot is in a voice channel
   async def in_voice_channel(self):
     if self.voice_channel == None:
       return False
     else:
       return True
 
+  # Command to join the channel the user is in
   @command()
   async def join(self, ctx):
     author = ctx.message.author
     self.voice_channel = author.voice.channel
     client = await self.voice_channel.connect()    
 
+  # Command to leave the channel the user is in
   @command()
   async def leave(self, ctx):
     if await self.in_voice_channel():
@@ -35,6 +38,7 @@ class Music (Cog):
     else:
       return False
 
+  # Plays a song on a voice channel
   def play_song(self, botvoice, song):    
     source = discord.FFmpegPCMAudio(song.stream_url)
     
@@ -49,7 +53,7 @@ class Music (Cog):
     self.now_playing = True
     botvoice.play(source, after=after_playing)    
 
-  # Play a song at url
+  # Command that takes a url to play a song
   @command()
   async def play (self, ctx, url):
     if self.voice_channel == None:
