@@ -16,7 +16,7 @@ class Meta (Cog):
 
   @command(name = "ses")
   async def ses(self, ctx):
-    await ctx.send("fuck you evan")
+    await ctx.send("hi evan")
 
   @command(name = "help")
   async def help(self, ctx):
