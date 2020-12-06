@@ -69,4 +69,16 @@ class Music (Cog):
     else:      
       await ctx.send("now playing")
       self.play_song(botvoice, self.playlist.pop(0))
-      
+
+  @command()
+  async def queue (self, ctx):
+    if self.playlist == []:
+        await ctx.send("Playlist empty!")
+        return
+    else:
+        message = "Current playlist:\n"
+        stringlist = []
+        for video in self.playlist:
+            stringlist.append(video.title)
+        message += "\n".join(stringlist)
+        await ctx.send(message)
