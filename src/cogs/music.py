@@ -84,6 +84,18 @@ class Music (Cog):
         return
 
   @command()
+  async def pause (self, ctx):
+    botvoice = ctx.voice_client
+    botvoice.pause()
+    await ctx.send("Music paused!")
+
+  @command()
+  async def resume (self, ctx):
+    botvoice = ctx.voice_client
+    botvoice.resume()
+    await ctx.send("Music resumed!")
+
+  @command()
   async def queue (self, ctx):
     if self.playlist == []:
         await ctx.send("Playlist empty!")
