@@ -24,4 +24,4 @@ class Meta (Cog):
 
   @command(name = "info")
   async def info(self, ctx):
-      await ctx.send("Muffinwoman is created by Cole Vohs. Read the code, create issues, and send patches at the repository: https://github.com/ColeW-Picaro/muffinwoman. Licensed under the GPLv3.")
+      await ctx.send("Muffinwoman is created by Cole Vohs. Read the code, create issues, and send patches at the repository: https://github.com/ColeW-Picaro/muffinwoman. Licensed under the AGPLv3.")
