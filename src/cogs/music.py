@@ -64,9 +64,56 @@ class Music (Cog):
     botvoice = ctx.voice_client    
     self.playlist.append(video) 
     if self.now_playing:
-      await ctx.send("added to queue")
+      await ctx.send("added to queue: " + video.title)
       return
     else:      
-      await ctx.send("now playing")
+      await ctx.send("now playing: " + video.title)
       self.play_song(botvoice, self.playlist.pop(0))
-      
+
+  @command()
+  async def skip (self, ctx):
+    botvoice = ctx.voice_client
+    botvoice.stop()
+    if len(self.playlist) > 0:
+        next_song = self.playlist.pop(0)
+        self.play_song(botvoice, next_song)
+        await ctx.send("Playing: " + next_song.title)
+    else:
+        self.now_playing = False
+        await ctx.send("Playlist empty!")
+        return
+
+  @command()
+  async def pause (self, ctx):
+    botvoice = ctx.voice_client
+    botvoice.pause()
+    await ctx.send("Music paused!")
+
+  @command()
+  async def resume (self, ctx):
+    botvoice = ctx.voice_client
+    botvoice.resume()
+    await ctx.send("Music resumed!")
+
+  @command()
+  async def queue (self, ctx):
+    if self.playlist == []:
+        await ctx.send("Playlist empty!")
+        return
+    else:
+        message = "Current playlist:\n"
+        stringlist = []
+        for video in self.playlist:
+            stringlist.append(video.title)
+        message += "\n".join(stringlist)
+        await ctx.send(message)
+
+  @command()
+  async def clearqueue (self, ctx):
+      if self.playlist == []:
+          await ctx.send("Playlist is empty!")
+          return
+      else:
+          self.playlist = []
+          await ctx.send("Playlist has been cleared!")
+          return
